@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Money Rotation Group</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .list {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>💸 Money Rotation Group</h2>
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <button onclick="addMember()">Join the Group</button>
+
+    <div class="list" id="memberList"></div>
+
+    <button onclick="simulateMonth()">💰 Simulate Monthly Payment</button>
+    <p id="payoutInfo"></p>
+  </div>
+
+  <script>
+    const members = [];
+    let currentReceiverIndex = 0;
+
+    function addMember() {
+      const name = document.getElementById('nameInput').value.trim();
+      if (name && !members.includes(name)) {
+        members.push(name);
+        document.getElementById('nameInput').value = '';
+        updateMemberList();
+      } else {
+        alert("Enter a unique name!");
+      }
+    }
+
+    function updateMemberList() {
+      let html = "<h3>Members:</h3><ul>";
+      members.forEach((member, index) => {
+        html += `<li>${index + 1}. ${member}</li>`;
+      });
+      html += "</ul>";
+      document.getElementById('memberList').innerHTML = html;
+    }
+
+    function simulateMonth() {
+      if (members.length < 2) {
+        alert("Need at least 2 members to start.");
+        return;
+      }
+      const total = members.length * 100; // Each pays 100
+      const receiver = members[currentReceiverIndex];
+      document.getElementById('payoutInfo').innerText =
+        `${receiver} receives $${total} this month.`;
+
+      currentReceiverIndex = (currentReceiverIndex + 1) % members.length;
+    }
+  </script>
+</body>
+</html>
